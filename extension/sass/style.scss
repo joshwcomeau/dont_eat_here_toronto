@@ -1,7 +1,36 @@
 @import 'variables';
 
 .inspection-wrapper {
+  position: relative;
+  max-width: 700px;
+  margin: 6px auto 28px auto;
+  
+
   h4 {
-    color: $green;
+    padding: 0.5rem;
+    margin-bottom: 0 !important;
+    font-size: 24px;
+    font-weight: bold;
+    background: $green;
+    color: #000;
+    text-align: center;
+    border-right: 2px solid darken($green, 15%);
+    border-radius: 4px 4px 0px 0px;
+  }
+
+  .inspection-details {
+    padding: 0.6rem;
+    background: $beige;
+    border-right: 2px solid darken($beige, 25%);
+    border-bottom: 2px solid darken($beige, 30%);
+    border-radius: 0px 0px 4px 4px;
+  }
+
+  .status-tally {
+
+  }
+
+  .inspection-tally {
+
   }
 }

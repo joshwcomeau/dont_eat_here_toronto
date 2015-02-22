@@ -1,3 +1,21 @@
-.inspection-wrapper h4 {
-  color: #A3BA6C; }
+.inspection-wrapper {
+  position: relative;
+  max-width: 700px;
+  margin: 6px auto 28px auto; }
+  .inspection-wrapper h4 {
+    padding: 0.5rem;
+    margin-bottom: 0 !important;
+    font-size: 24px;
+    font-weight: bold;
+    background: #A3BA6C;
+    color: #000;
+    text-align: center;
+    border-right: 2px solid #7e9445;
+    border-radius: 4px 4px 0px 0px; }
+  .inspection-wrapper .inspection-details {
+    padding: 0.6rem;
+    background: #F2E1AC;
+    border-right: 2px solid #e1b83e;
+    border-bottom: 2px solid #ddb028;
+    border-radius: 0px 0px 4px 4px; }
 

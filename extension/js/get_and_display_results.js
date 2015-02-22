@@ -25,7 +25,7 @@ function run() {
       tally     = tallyStatuses(restaurantData);
       tallyStr  = generateTallyString(tally); 
 
-      // Generate and render our DOM node.
+      // Generate and render our default DOM node.
       $node = buildDOMNode();
       renderNode($node);
 
@@ -46,9 +46,11 @@ run();
 function buildDOMNode() {
   return $("<div class='inspection-wrapper'>" +
       "<h4>DineSafe Toronto Food Inspection Results</h4>" +
-      "<div class='status-tally'></div>" +
-      "<div class='infraction-tally'></div>" +
-      "<div class='show-details' onClick='showDetailedInspectionData()'>Click for Details</div>" +
+      "<div class='inspection-details'>" +
+        "<div class='status-tally'></div>" +
+        "<div class='infraction-tally'></div>" +
+        "<div class='show-details' onClick='showDetailedInspectionData()'>Click for Details</div>" +
+      "</div>" +
     "</div>");
 }
 
@@ -57,7 +59,7 @@ function showDetailedInspectionData() {
 }
 
 function renderNode(node) {
-  $(".biz-page-title").after(node);
+  $(".biz-page-header").after(node);
 }
 
 function getRestaurantName(className) {
