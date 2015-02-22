@@ -1,3 +1,4 @@
+require 'json'
 require 'active_support/core_ext/string'
 
 module Processor
@@ -7,7 +8,32 @@ module Processor
     "Cafeteria - Public Access",      "Ice Cream / Yogurt Vendors",           "Cocktail Bar / Beverage Room",   
     "Bake Shop",                      "College/University Food services",     "Hot Dog Cart"
   ]
-  NUM_OF_INSPECTIONS = 6
+  NUM_OF_INSPECTIONS = 10
+
+
+  #### MAIN METHOD ####
+  #####################
+
+  def self.process(data, output_path)
+    # Use Nokogiri to process the XML into a ruby object
+    obj           = get_hash_from_xml(data)
+
+    # Get rid of non-restaurants
+    filtered_obj  = filter_by_establishment(obj)
+
+    # Organize and format the data
+    formatted_obj = format_data(filtered_obj)
+
+    # output JSON to file
+    result = output_json(formatted_obj, output_path)
+
+    # return the result
+    result
+  end
+
+
+  #### FIRST-LEVEL METHODS ####
+  #############################
 
   # Turns an XML file into a ruby array of hashes.
   def self.get_hash_from_xml(path)
@@ -53,6 +79,17 @@ module Processor
     formatted_data
   end
 
+  def self.output_json(data, path)
+    File.open(path, "w") do |f|
+      f.write(JSON.pretty_generate(data))
+    end
+  end
+
+
+
+  #### HELPER METHODS ####
+  ########################
+
   def self.create_restaurant(inspection)
     {
       name:         inspection["ESTABLISHMENT_NAME"],
@@ -87,7 +124,4 @@ module Processor
 
     values.uniq!
   end
-
-
-
 end
