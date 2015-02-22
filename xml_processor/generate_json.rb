@@ -10,7 +10,11 @@ ds_short  = 'dinesafe_really_short_sample.xml'
 # DineSafe has a lot of non-restaurant establishments. We only care about these ones:
 
 
-data = Processor::get_hash_from_xml(ds_short)
+data = Processor::get_hash_from_xml(ds_sample)
+
+data = Processor::filter_by_establishment(data)
+
+data = Processor::format_data(data)
 
 puts data
 
@@ -18,16 +22,3 @@ puts data
 
 
 
-
-
-###### LESS IMPORTANT STUFF
-
-# One-time method to generate a full list of establishment types
-def get_list_of_all_establishment_types(data)
-  types = []
-  data.each do |r|
-    types << r["ESTABLISHMENTTYPE"]
-  end
-
-  types.uniq!
-end

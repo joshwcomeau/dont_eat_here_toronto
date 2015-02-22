@@ -1,6 +1,7 @@
 [
   {
-    "name": "Flo's Diner",
+    "name":     "Flo's Diner",
+    "address":  "123 street",
     "inspections": [
       {
         "date":   "2014-04-03",
@@ -28,7 +29,8 @@
       }
     ]
   },{
-    "name": "Dragon House",
+    "name":     "Dragon House",
+    "address":  "123 street",
     "inspections": [
       {
         "date":   "2013-12-18",
