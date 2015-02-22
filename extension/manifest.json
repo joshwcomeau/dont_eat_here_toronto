@@ -28,7 +28,11 @@
     {
       "matches": ["http://*.yelp.com/*", "https://*.yelp.com/*", "http://*.yelp.ca/*", "https://*.yelp.ca/*"],
       "css": ["css/style.css"],
-      "js": ["js/jquery.js", "js/get_and_display_results.js"]
+      "js": ["js/jquery.js", "js/lodash.js", "js/get_and_display_results.js"]
     }
+  ],
+
+  "web_accessible_resources": [
+    "*.json"
   ]
 }
