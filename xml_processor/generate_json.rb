@@ -8,7 +8,8 @@ ds_sample = 'dinesafe_sample.xml'
 ds_short  = 'dinesafe_really_short_sample.xml'
 
 # Write JSON to our extension folder
-Processor::process(ds_sample, '../extension/data.json')
+Processor::process(ds_full,   '../extension/data.json')
+Processor::process(ds_sample, '../extension/data_sample.json')
 
 
 
