@@ -7,13 +7,28 @@
 
   "page_action": {
     "default_icon": {
-      "19": "icon19x19.png",
-      "38": "icon76x76.png"
+      "19": "icon_19.png",
+      "38": "icon_38.png"
     },
+    "default_title": "Restaurant Inspection Data Available!",
     "default_popup": "popup.html"
   },
 
+  "background": {
+    "scripts": ["js/show_icon.js"],
+    "persistent": false
+  },
+
   "permissions": [
+    "declarativeContent",
     "https://ajax.googleapis.com/"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["http://*.yelp.com/*", "https://*.yelp.com/*", "http://*.yelp.ca/*", "https://*.yelp.ca/*"],
+      "css": ["css/style.css"],
+      "js": ["js/jquery.js", "js/get_and_display_results.js"]
+    }
   ]
 }
