@@ -42,11 +42,7 @@ module Processor
 
       if !restaurant
         # Create the new restaurant
-        formatted_data << {
-          name:         restaurant_name,
-          address:      inspection["ESTABLISHMENT_ADDRESS"],
-          inspections:  [ create_inspection(inspection) ]
-        }
+        formatted_data << create_restaurant(inspection)
 
       elsif restaurant[:inspections].count < NUM_OF_INSPECTIONS
         # Add the inspection to the found restaurant
@@ -55,6 +51,14 @@ module Processor
     end
 
     formatted_data
+  end
+
+  def self.create_restaurant(inspection)
+    {
+      name:         inspection["ESTABLISHMENT_NAME"],
+      address:      inspection["ESTABLISHMENT_ADDRESS"],
+      inspections:  [ create_inspection(inspection) ]
+    }    
   end
 
   def self.create_inspection(inspection)
@@ -69,70 +73,10 @@ module Processor
     }
   end
 
+  # returns 'pass', 'conditional', or 'closed'
   def self.format_status(str)
     str.split(" ").first.downcase
   end
-
-
-
-
-# {
-#   "Flo's Diner": [
-#     {
-#       "date":   "2014-04-03",
-#       "status": "pass",
-#       "details": "",
-#       "severity": ""
-#     },
-#     {
-#       "date":   "2013-12-16",
-#       "status": "pass",
-#       "details": "OPERATOR FAIL TO ENSURE WRAPPING WILL PREVENT CONTAMINATION OR ADULTERATION O. REG  562/90 SEC. 59(C)(II)",
-#       "severity": "S - Significant"
-#     },
-#     {
-#       "date":   "2013-12-16",
-#       "status": "pass",
-#       "details": "FAIL TO STORE FOOD ON RACKS OR SHELVES O. REG  562/90 SEC. 23",
-#       "severity": "S - Significant"
-#     },
-#     {
-#       "date":   "2013-05-30",
-#       "status": "pass",
-#       "details": "FAIL TO PROVIDE THERMOMETER IN TEMPERATURE CONTROLLED ROOM O. REG  562/90 SEC. 21",
-#       "severity": "S - Significant"
-#     }
-#   ],
-#   "Dragon House": [
-#     {
-#       "date":   "2013-12-18",
-#       "status": "conditional",
-#       "details": "Operator fail to properly store liquid waste",
-#       "severity": "S - Significant"
-#     },
-#     {
-#       "date":   "2013-12-18",
-#       "status": "conditional",
-#       "details": "Operator fail to properly maintain rooms",
-#       "severity": "M - Minor"
-#     },
-#     {
-#       "date":   "2013-12-18",
-#       "status": "conditional",
-#       "details": "Operator fail to maintain hazardous food(s) at 4C (40F) or colder.",
-#       "severity": "C - Crucial"
-#     },
-#     {
-#       "date":   "2013-09-12",
-#       "status": "pass",
-#       "details": "Operator fail to properly wash surfaces in rooms",
-#       "severity": "M - Minor"
-#     }
-#   ]
-# } 
-
-
-
 
   # Find all the different possible values for a given field
   def self.get_unique_list_of_values(data, field)
