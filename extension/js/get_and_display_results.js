@@ -4,7 +4,7 @@
 function run() {
   var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath;
 
-  jsonPath        = "../data_sample.json";
+  jsonPath        = "../data.json";
 
   restaurantName  = getRestaurantName();
   restaurantAddr  = getRestaurantAddress();
@@ -16,6 +16,13 @@ function run() {
     
     jsonData        = JSON.parse(data);
     restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
+
+    if (restaurantData) {
+      console.log("FOUND MATCH")
+      console.log(restaurantData);
+    } else {
+      console.log("No match found :(");
+    }
 
   });
 
@@ -50,18 +57,37 @@ function getRestaurantAddress(className) {
 function findRestaurant(data, name, addr) {
   var match, cleanedName, cleanedJsonName;
 
-  cleanedName = cleanName(name);
+  // Let's standardize our data by removing non-alphanumeric characters, and lowercasing it.
+  name = cleanName(name);
+  // For addresses, let's *only* look at the street number. This is basically a redundancy check anyway.
+  addr = cleanAddr(addr);
 
   return _.find(data, function(restaurant) {
     cleanedJsonName = cleanName(restaurant.name);
-    console.log(cleanedName, "could be equal to", cleanedJsonName);
-    return cleanedName === cleanedJsonName;
+    cleanedJsonAddr = cleanAddr(restaurant.address);
+
+    return (name === cleanedJsonName && addr === cleanedJsonAddr);
   });
 }
 
 function cleanName(str) {
-  if (str)
+  var str_array;
+
+  if (str) {
+    // If there are more than 2 words in the name, just take the first 2.
+    // This is to avoid mismatches when there are suffixes on one version like 'restaurant'
+    str_array = str.split(" ");
+
+    if (str_array.length > 2) {
+      str = str_array.slice(0, 2).join(" ")
+    }
     return str.replace(/[^\w]/gi, '').toLowerCase();
+  }
+}
+
+function cleanAddr(str) {
+  if (str)
+    return str.split(" ")[0];
 }
 
 function getJSONData(path) {

@@ -26,7 +26,7 @@
 
   "content_scripts": [
     {
-      "matches": ["http://*.yelp.com/*", "https://*.yelp.com/*", "http://*.yelp.ca/*", "https://*.yelp.ca/*"],
+      "matches": ["http://*.yelp.com/biz/*", "https://*.yelp.com/biz/*", "http://*.yelp.ca/biz/*", "https://*.yelp.ca/biz/*"],
       "css": ["css/style.css"],
       "js": ["js/jquery.js", "js/lodash.js", "js/get_and_display_results.js"]
     }
