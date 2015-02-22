@@ -2,7 +2,7 @@
  //// MAIN FUNCTION. Runs on pageload. ////
 //////////////////////////////////////////
 function run() {
-  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath;
+  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath, tally, tallyStr;
 
   jsonPath        = "../data.json";
 
@@ -20,6 +20,16 @@ function run() {
     if (restaurantData) {
       console.log("FOUND MATCH")
       console.log(restaurantData);
+
+      // Tally our statuses
+      tally     = tallyStatuses(restaurantData);
+      tallyStr  = generateTallyString(tally); 
+
+      // Generate and render our DOM node.
+      $node = buildDOMNode();
+      renderNode($node);
+
+      // Attach our tallies
     } else {
       console.log("No match found :(");
     }
@@ -29,15 +39,21 @@ function run() {
   
   
 
-  // Generate and render our DOM node.
-  // $node = buildDOMNode();
-  // renderNode($node);
 }
 
 run();
 
 function buildDOMNode() {
-  return $("<div>").addClass("inspection-wrapper");
+  return $("<div class='inspection-wrapper'>" +
+      "<h4>DineSafe Toronto Food Inspection Results</h4>" +
+      "<div class='status-tally'></div>" +
+      "<div class='infraction-tally'></div>" +
+      "<div class='show-details' onClick='showDetailedInspectionData()'>Click for Details</div>" +
+    "</div>");
+}
+
+function showDetailedInspectionData() {
+  alert("Clicked detail view");
 }
 
 function renderNode(node) {
@@ -104,4 +120,8 @@ function tallyStatuses(data) {
   });
 
   return tally;
+}
+
+function generateTallyString(tally) {
+
 }
