@@ -12,7 +12,7 @@ var gulp         = require('gulp'),
 
 
 gulp.task('default', function() {
-  gulp.start('styles', 'scripts');
+  gulp.start('styles', 'scripts', 'watch');
 });
 
 gulp.task('styles', function() {
@@ -25,4 +25,9 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
  
+});
+
+gulp.task('watch', ['styles', 'scripts'], function() {
+  gulp.watch('extension/js/*.js', ['scripts']);
+  gulp.watch('extension/sass/*.scss', ['styles']);
 });
