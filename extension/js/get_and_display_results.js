@@ -1,3 +1,73 @@
+
+ //// MAIN FUNCTION. Runs on pageload. ////
+//////////////////////////////////////////
+function run() {
+  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath;
+
+  jsonPath        = "../data_sample.json";
+
+  restaurantName  = getRestaurantName();
+  restaurantAddr  = getRestaurantAddress();
+
+  console.log("Restaurant name", restaurantName);
+  console.log("Restaurant Addr", restaurantAddr);
+  
+  getJSONData(jsonPath).then(function(data) {  
+    
+    jsonData        = JSON.parse(data);
+    restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
+
+  });
+
+  
+  
+
+  // Generate and render our DOM node.
+  // $node = buildDOMNode();
+  // renderNode($node);
+}
+
+run();
+
+function buildDOMNode() {
+  return $("<div>").addClass("inspection-wrapper");
+}
+
+function renderNode(node) {
+  $(".biz-page-title").after(node);
+}
+
+function getRestaurantName(className) {
+  className = className || "biz-page-title"
+  return $.trim( $("."+className).text() );
+}
+
+function getRestaurantAddress(className) {
+  className = className || "street-address"
+  return $("."+className).find( "[itemprop=streetAddress]" ).text();
+}
+
+function findRestaurant(data, name, addr) {
+  var match, cleanedName, cleanedJsonName;
+
+  cleanedName = cleanName(name);
+
+  return _.find(data, function(restaurant) {
+    cleanedJsonName = cleanName(restaurant.name);
+    console.log(cleanedName, "could be equal to", cleanedJsonName);
+    return cleanedName === cleanedJsonName;
+  });
+}
+
+function cleanName(str) {
+  if (str)
+    return str.replace(/[^\w]/gi, '').toLowerCase();
+}
+
+function getJSONData(path) {
+  return $.get(chrome.extension.getURL(path));
+}
+
 function tallyStatuses(data) {
   var tally, status, report;
 
@@ -9,26 +79,3 @@ function tallyStatuses(data) {
 
   return tally;
 }
-
-function 
-
-
-// Build our DOM element
-var inspectorDOM = $("<div>").addClass("inspection-wrapper").append("<h4>1 Minor Infraction, 2 Significant Infractions</h4>")
-
-
-// Insert our DOM element
-$(".biz-page-title").after(inspectorDOM);
-
-
-// Get the data
-$.get(chrome.extension.getURL("fixture.json"), function(data) {
-  data = JSON.parse(data);
-  console.log(data);
-
-  // Get the second restaurant's statuses
-  statuses = tallyStatuses(data[1]);
-
-  console.log(statuses);
-  $(".inspection-wrapper").html(statuses);
-})

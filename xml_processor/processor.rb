@@ -1,5 +1,5 @@
 require 'json'
-require 'active_support/core_ext/string'
+require 'active_support/core_ext/string' # Just using this for string#blank?
 
 module Processor
   ACCEPTABLE_ESTABLISHMENTS = [
@@ -50,7 +50,6 @@ module Processor
       ACCEPTABLE_ESTABLISHMENTS.include? inspection["ESTABLISHMENTTYPE"]
     end
   end
-
 
   # Turns the original format into something more usable. limits it to the N most recent inspections, grouped by restaurant, with
   # only the relevant fields kept, and standardized.
