@@ -1,11 +1,7 @@
 function tallyStatuses(data) {
   var tally, status, report;
 
-  tally = {
-    pass: 0,
-    conditional: 0,
-    closed: 0
-  };
+  tally = { pass: 0, conditional: 0, closed: 0 };
 
   data.inspections.forEach(function(report) {
     tally[report.status]++;
@@ -13,6 +9,8 @@ function tallyStatuses(data) {
 
   return tally;
 }
+
+function 
 
 
 // Build our DOM element
