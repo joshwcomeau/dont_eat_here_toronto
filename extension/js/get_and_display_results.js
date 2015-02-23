@@ -2,7 +2,8 @@
  //// MAIN FUNCTION. Runs on pageload. ////
 //////////////////////////////////////////
 function run() {
-  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath, status, statusStr, severity, severityString;
+  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, 
+      jsonPath, status, statusStr, severity, severityString, inspectionTable;
 
   jsonPath        = "../data.json";
 
@@ -18,51 +19,48 @@ function run() {
     restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
 
     if (restaurantData) {
-      console.log("FOUND MATCH")
-      console.log(restaurantData);
-
       // Generate and render our default DOM node.
       $node = buildDOMNode();
       renderNode($node);
 
       // Tally our statuses
-      status      = tallyInspections(restaurantData, "status", { pass: 0, conditional: 0, closed: 0 });
-      statusStr   = generateTallyString(status, "status"); 
+      status          = tallyInspections(restaurantData, "status", { pass: 0, conditional: 0, closed: 0 });
+      statusStr       = generateTallyString(status, "status"); 
       $(".status-tally").html(statusStr);
 
       // Get our infraction counts
-      severity    = tallyInspections(restaurantData, "severity", { M: 0, S: 0, C: 0 });
-      severityStr = generateTallyString(severity, "severity"); 
+      severity        = tallyInspections(restaurantData, "severity", { M: 0, S: 0, C: 0 });
+      severityStr     = generateTallyString(severity, "severity"); 
       $(".severity-tally").html(severityStr);
+
+      // Generate the inspection table
+      inspectionTable = generateInspectionTable(restaurantData);
+      $(".severity-tally").after(inspectionTable);
 
 
     } else {
       console.log("No match found :(");
     }
-
   });
-
-  
-  
-
 }
 
 run();
 
 function buildDOMNode() {
-  return $("<div class='inspection-wrapper'>" +
-      "<h4>DineSafe Toronto Food Inspection Results</h4>" +
-      "<div class='inspection-details'>" +
-        "<div class='status-tally'></div>" +
-        "<div class='severity-tally'></div>" +
-        "<div class='show-details' onClick='showDetailedInspectionData()'>Click for Details</div>" +
-      "</div>" +
+  return $("<div class='inspection-wrapper'>"                           +
+      "<h4>DineSafe Toronto Food Inspection Results</h4>"               +
+      "<div class='inspection-details'>"                                +
+        "<div class='status-tally'></div>"                              +
+        "<div class='severity-tally'></div>"                            +
+        "<div class='not-yelp-notice'>"                                 +
+          "This inspection data provided by the Don't Eat Here Chrome " +
+          "extension and is unaffiliated with Yelp."                    +
+        "</div>"                                                        +  
+      "</div>"                                                          +
     "</div>");
 }
 
-function showDetailedInspectionData() {
-  alert("Clicked detail view");
-}
+
 
 function renderNode(node) {
   $(".biz-page-header").after(node);
@@ -167,6 +165,63 @@ function generateTallyString(tally, field) {
     field3 = generateTallySpan(tally.C, "critical infraction", "color-red");
   }
 
-
   return [field1, field2, field3].filter(function(n){ return n != null }).join(", ");
+}
+
+function formatStatus(status) {
+  // Capitalize first letter
+  status = status.charAt(0).toUpperCase() + status.slice(1);
+
+  // Change 'Closed' to 'Fail'
+  if ( status === "Closed" ) { status = "Fail"; }
+
+  return status;
+}
+
+function formatSeverity(severity) {
+  var formattedSeverity
+  
+  if ( severity === "M" ) {
+    formattedSeverity = "Minor";
+  } else if ( severity === "S" ) {
+    formattedSeverity = "Significant";
+  } else if ( severity === "C" ) {
+    formattedSeverity = "Critical";
+  }
+
+  return formattedSeverity;
+}
+
+function generateInspectionTable(data) {
+  // the actual <table> tag comes pre-
+  var $table, headerRow, row, status, severity;
+
+  $table = $("<table class='inspection-table'></table>");
+
+  headerRow  = "<tr>";
+  headerRow += "<th>Date</th>";
+  headerRow += "<th>Status</th>";
+  headerRow += "<th>Severity</th>";
+  headerRow += "<th>Details</th>";
+  headerRow += "</tr>"
+  $table.append(headerRow);
+
+
+  data.inspections.forEach(function(inspection) {
+    row = ""; // Reset our row for this iteration
+
+    status   = formatStatus(inspection.status);
+    severity = formatSeverity(inspection.severity);
+
+    row += "<tr>";
+    row += "<td class='date'>"      + inspection.date             + "</td>";
+    row += "<td class='status'>"    + (status || "-")               + "</td>";
+    row += "<td class='severity'>"  + (severity  || "-")            + "</td>";
+    row += "<td class='details'>"   + (inspection.details  || "-")  + "</td>";
+    row += "</tr>"
+
+    $table.append(row);
+  });
+
+  return $table;
 }

@@ -32,11 +32,52 @@
   }
 
   .status-tally {
-    font-size: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 18px;
     font-weight: bold;
   }
 
   .severity-tally {
+    opacity: 0.9;
+    text-align: center;
+  }
 
+  .show-details {
+    cursor: pointer;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+
+  .inspection-table {
+    background: lighten($beige, 15%);
+    padding: 0.5rem;
+    font-size: 12px;
+    margin-top: 16px;
+
+    td {
+      padding: 7px 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+
+    th {
+      text-align: left;
+      padding: 7px 15px;
+      font-weight: bold;
+      background: lighten($beige, 12%);
+      border-bottom: 1px solid darken($beige, 10%);
+    }
+
+    .date {
+      min-width: 90px;
+    }
+
+  }
+
+  .not-yelp-notice {
+    margin: 16px 16px 0 16px;
+    text-align: center;
+    font-size: 11px;
+    opacity: 0.75;
   }
 }

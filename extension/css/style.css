@@ -27,6 +27,36 @@
     border-bottom: 2px solid #ddb028;
     border-radius: 0px 0px 4px 4px; }
   .inspection-wrapper .status-tally {
-    font-size: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 18px;
     font-weight: bold; }
+  .inspection-wrapper .severity-tally {
+    opacity: 0.9;
+    text-align: center; }
+  .inspection-wrapper .show-details {
+    cursor: pointer;
+    margin-top: 12px;
+    font-weight: bold; }
+  .inspection-wrapper .inspection-table {
+    background: #fcf9ee;
+    padding: 0.5rem;
+    font-size: 12px;
+    margin-top: 16px; }
+    .inspection-wrapper .inspection-table td {
+      padding: 7px 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15); }
+    .inspection-wrapper .inspection-table th {
+      text-align: left;
+      padding: 7px 15px;
+      font-weight: bold;
+      background: #faf4e1;
+      border-bottom: 1px solid #ebd080; }
+    .inspection-wrapper .inspection-table .date {
+      min-width: 90px; }
+  .inspection-wrapper .not-yelp-notice {
+    margin: 16px 16px 0 16px;
+    text-align: center;
+    font-size: 11px;
+    opacity: 0.75; }
 
