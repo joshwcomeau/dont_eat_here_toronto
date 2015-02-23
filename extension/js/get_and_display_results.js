@@ -37,6 +37,9 @@ function run() {
       inspectionTable = generateInspectionTable(restaurantData);
       $(".severity-tally").after(inspectionTable);
 
+      // Bind the show-details click
+      clickToShow(".show-details", ".inspection-table");
+
 
     } else {
       console.log("No match found :(");
@@ -46,12 +49,32 @@ function run() {
 
 run();
 
+
+
+ //// TOP LEVEL FUNCTIONS.  ////
+///////////////////////////////
+
+function getRestaurantName(className) {
+  className = className || "biz-page-title"
+  return $.trim( $("."+className).text() );
+}
+
+function getRestaurantAddress(className) {
+  className = className || "street-address"
+  return $("."+className).find( "[itemprop=streetAddress]" ).text();
+}
+
+function getJSONData(path) {
+  return $.get(chrome.extension.getURL(path));
+}
+
 function buildDOMNode() {
   return $("<div class='inspection-wrapper'>"                           +
       "<h4>DineSafe Toronto Food Inspection Results</h4>"               +
       "<div class='inspection-details'>"                                +
         "<div class='status-tally'></div>"                              +
         "<div class='severity-tally'></div>"                            +
+        "<div class='show-details'>Show Inspection Details</div>"       +
         "<div class='not-yelp-notice'>"                                 +
           "This inspection data provided by the Don't Eat Here Chrome " +
           "extension and is unaffiliated with Yelp."                    +
@@ -66,21 +89,13 @@ function renderNode(node) {
   $(".biz-page-header").after(node);
 }
 
-function getRestaurantName(className) {
-  className = className || "biz-page-title"
-  return $.trim( $("."+className).text() );
-}
-
-function getRestaurantAddress(className) {
-  className = className || "street-address"
-  return $("."+className).find( "[itemprop=streetAddress]" ).text();
-}
 
 function findRestaurant(data, name, addr) {
   var match, cleanedName, cleanedJsonName;
 
   // Let's standardize our data by removing non-alphanumeric characters, and lowercasing it.
   name = cleanName(name);
+
   // For addresses, let's *only* look at the street number. This is basically a redundancy check anyway.
   addr = cleanAddr(addr);
 
@@ -112,9 +127,7 @@ function cleanAddr(str) {
     return str.split(" ")[0];
 }
 
-function getJSONData(path) {
-  return $.get(chrome.extension.getURL(path));
-}
+
 
 function tallyInspections(data, field, tally) {
   var report;
@@ -124,6 +137,13 @@ function tallyInspections(data, field, tally) {
   });
 
   return tally;
+}
+
+function clickToShow(handler, target) {
+  $(handler).on("click", function() {
+    $(handler).hide();
+    $(target).fadeIn(500);
+  });
 }
 
 function pluralizeString(string, num) {
@@ -179,7 +199,7 @@ function formatStatus(status) {
 }
 
 function formatSeverity(severity) {
-  var formattedSeverity
+  var formattedSeverity = null;
   
   if ( severity === "M" ) {
     formattedSeverity = "Minor";
@@ -214,7 +234,7 @@ function generateInspectionTable(data) {
     severity = formatSeverity(inspection.severity);
 
     row += "<tr>";
-    row += "<td class='date'>"      + inspection.date             + "</td>";
+    row += "<td class='date'>"      + inspection.date               + "</td>";
     row += "<td class='status'>"    + (status || "-")               + "</td>";
     row += "<td class='severity'>"  + (severity  || "-")            + "</td>";
     row += "<td class='details'>"   + (inspection.details  || "-")  + "</td>";

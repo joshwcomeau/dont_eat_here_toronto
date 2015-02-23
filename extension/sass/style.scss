@@ -50,6 +50,7 @@
   }
 
   .inspection-table {
+    display: none;
     background: lighten($beige, 15%);
     padding: 0.5rem;
     font-size: 12px;

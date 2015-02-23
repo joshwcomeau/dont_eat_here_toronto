@@ -39,6 +39,7 @@
     margin-top: 12px;
     font-weight: bold; }
   .inspection-wrapper .inspection-table {
+    display: none;
     background: #fcf9ee;
     padding: 0.5rem;
     font-size: 12px;
