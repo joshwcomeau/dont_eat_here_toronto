@@ -45,8 +45,24 @@
 
   .show-details {
     cursor: pointer;
-    margin-top: 12px;
+    position: relative;
+    display: block;
+    margin: 24px auto 10px auto;
+    padding: 10px 30px;
     font-weight: bold;
+    text-align: center;
+    background: darken($blue, 10%);
+    text-shadow: 1px 1px 0 darken($blue, 18%);
+    color: #FFF;
+    border: 0;
+    border-radius: 4px;
+    transition: 0.8s;
+
+    &:hover {
+      background: $blue;
+      transition: 0.2s;
+    }
+
   }
 
   .inspection-table {
@@ -80,5 +96,6 @@
     text-align: center;
     font-size: 11px;
     opacity: 0.75;
+    font-weight: bold;
   }
 }

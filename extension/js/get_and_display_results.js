@@ -74,12 +74,12 @@ function buildDOMNode() {
       "<div class='inspection-details'>"                                +
         "<div class='status-tally'></div>"                              +
         "<div class='severity-tally'></div>"                            +
-        "<div class='show-details'>Show Inspection Details</div>"       +
-        "<div class='not-yelp-notice'>"                                 +
-          "This inspection data provided by the Don't Eat Here Chrome " +
-          "extension and is unaffiliated with Yelp."                    +
-        "</div>"                                                        +  
+        "<button class='show-details'>Show Inspection Details</button>" +
       "</div>"                                                          +
+      "<div class='not-yelp-notice'>"                                   +
+        "This inspection data provided by the Don't Eat Here Chrome "   +
+        "extension and is unaffiliated with Yelp."                      +
+      "</div>"                                                          +         
     "</div>");
 }
 

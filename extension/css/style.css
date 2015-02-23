@@ -36,8 +36,21 @@
     text-align: center; }
   .inspection-wrapper .show-details {
     cursor: pointer;
-    margin-top: 12px;
-    font-weight: bold; }
+    position: relative;
+    display: block;
+    margin: 24px auto 10px auto;
+    padding: 10px 30px;
+    font-weight: bold;
+    text-align: center;
+    background: #4e8881;
+    text-shadow: 1px 1px 0 #3f6e69;
+    color: #FFF;
+    border: 0;
+    border-radius: 4px;
+    transition: 0.8s; }
+    .inspection-wrapper .show-details:hover {
+      background: #63A69F;
+      transition: 0.2s; }
   .inspection-wrapper .inspection-table {
     display: none;
     background: #fcf9ee;
@@ -59,5 +72,6 @@
     margin: 16px 16px 0 16px;
     text-align: center;
     font-size: 11px;
-    opacity: 0.75; }
+    opacity: 0.75;
+    font-weight: bold; }
 
