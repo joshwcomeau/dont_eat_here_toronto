@@ -2,7 +2,7 @@
  //// MAIN FUNCTION. Runs on pageload. ////
 //////////////////////////////////////////
 function run() {
-  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath, tally, tallyStr;
+  var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, jsonPath, status, statusStr, severity, severityString;
 
   jsonPath        = "../data.json";
 
@@ -26,9 +26,15 @@ function run() {
       renderNode($node);
 
       // Tally our statuses
-      tally     = tallyStatuses(restaurantData);
-      tallyStr  = generateTallyString(tally); 
-      $(".status-tally").html(tallyStr);
+      status      = tallyInspections(restaurantData, "status", { pass: 0, conditional: 0, closed: 0 });
+      statusStr   = generateTallyString(status, "status"); 
+      $(".status-tally").html(statusStr);
+
+      // Get our infraction counts
+      severity    = tallyInspections(restaurantData, "severity", { M: 0, S: 0, C: 0 });
+      severityStr = generateTallyString(severity, "severity"); 
+      $(".severity-tally").html(severityStr);
+
 
     } else {
       console.log("No match found :(");
@@ -48,7 +54,7 @@ function buildDOMNode() {
       "<h4>DineSafe Toronto Food Inspection Results</h4>" +
       "<div class='inspection-details'>" +
         "<div class='status-tally'></div>" +
-        "<div class='infraction-tally'></div>" +
+        "<div class='severity-tally'></div>" +
         "<div class='show-details' onClick='showDetailedInspectionData()'>Click for Details</div>" +
       "</div>" +
     "</div>");
@@ -112,13 +118,11 @@ function getJSONData(path) {
   return $.get(chrome.extension.getURL(path));
 }
 
-function tallyStatuses(data) {
-  var tally, status, report;
-
-  tally = { pass: 0, conditional: 0, closed: 0 };
+function tallyInspections(data, field, tally) {
+  var report;
 
   data.inspections.forEach(function(report) {
-    tally[report.status]++;
+    tally[report[field]]++;
   });
 
   return tally;
@@ -139,25 +143,30 @@ function wrapInSpan(content, className) {
   return "<span class='" + className + "'>" + content + "</span>";
 }
 
-function generateTallySpan(num, noun, colour) {
+function generateTallySpan(num, noun, className) {
   var str;
 
   if (num > 0) {
     str = pluralizeString(noun, num);
-    str = wrapInSpan(str, "color-"+colour);
+    str = wrapInSpan(str, className);
   }
 
   return str;
 }
 
-function generateTallyString(tally) {
-  var pass, cond, fail;
+function generateTallyString(tally, field) {
+  var field1, field2, field3;
   
-  pass = generateTallySpan(tally.pass, "pass", "green");
-  cond = generateTallySpan(tally.conditional, "conditional pass", "orange");
-  fail = generateTallySpan(tally.closed, "fail", "red");
+  if ( field === "status" ) {
+    field1 = generateTallySpan(tally.pass, "pass", "color-green");
+    field2 = generateTallySpan(tally.conditional, "conditional pass", "color-orange");
+    field3 = generateTallySpan(tally.closed, "fail", "color-red");
+  } else if ( field === "severity" ) {
+    field1 = generateTallySpan(tally.M, "minor infraction", "color-orange");
+    field2 = generateTallySpan(tally.S, "significant infraction", "color-dark-orange");
+    field3 = generateTallySpan(tally.C, "critical infraction", "color-red");
+  }
 
-  console.log(pass, cond, fail);
 
-  return [pass, cond, fail].filter(function(n){ return n != null }).join(", ");
+  return [field1, field2, field3].filter(function(n){ return n != null }).join(", ");
 }

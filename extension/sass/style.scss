@@ -5,9 +5,10 @@
   max-width: 700px;
   margin: 6px auto 28px auto;
 
-  .color-green  { color: darken($green, 15%); }
-  .color-orange { color: $orange; }
-  .color-red    { color: $red; }
+  .color-green        { color: darken($green, 15%); }
+  .color-orange       { color: $orange; }
+  .color-dark-orange  { color: $darkorange; }
+  .color-red          { color: $red; }
   
 
   h4 {
@@ -35,7 +36,7 @@
     font-weight: bold;
   }
 
-  .inspection-tally {
+  .severity-tally {
 
   }
 }
