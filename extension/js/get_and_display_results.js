@@ -124,38 +124,38 @@ function tallyStatuses(data) {
   return tally;
 }
 
-function pluralizeString(string, suffix, num) {
-  if (num > 0) {
-    return num + " " + string + (num === 1 ? "" : suffix);
-  } else {
-    return null;
-  }
+function pluralizeString(string, num) {
+  var suffix;
+
+  // Very simple pluralizing logic, works for our case but not general.
+  suffix = string.slice(-1) === "s" ? "es" : "s";
+
+  // Yes, double ternary. I should probably do this over several lines, but it's really just formatting nonsense.
+  // Returns "1 pass" or "3 passes" or "2 fails"
+  return num > 0 ? num + " " + string + (num === 1 ? "" : suffix) : null;
 }
 
 function wrapInSpan(content, className) {
   return "<span class='" + className + "'>" + content + "</span>";
 }
 
+function generateTallySpan(num, noun, colour) {
+  var str;
+
+  if (num > 0) {
+    str = pluralizeString(noun, num);
+    str = wrapInSpan(str, "color-"+colour);
+  }
+
+  return str;
+}
+
 function generateTallyString(tally) {
   var pass, cond, fail;
   
-  console.log(tally);
-
-  // Ugh there is definitely a better way to do this, but whatever
-  if (tally.pass > 0) {
-    pass = pluralizeString("pass", "es", tally.pass);
-    pass = wrapInSpan(pass, "color-green");
-  }
-
-  if (tally.conditional > 0) {
-    cond = pluralizeString("conditional pass", "es", tally.conditional);
-    cond = wrapInSpan(cond, "color-orange");
-  }
-
-  if (tally.closed > 0) {
-    fail = pluralizeString("fail", "s", tally.closed);
-    fail = wrapInSpan(fail, "color-red");
-  }
+  pass = generateTallySpan(tally.pass, "pass", "green");
+  cond = generateTallySpan(tally.conditional, "conditional pass", "orange");
+  fail = generateTallySpan(tally.closed, "fail", "red");
 
   console.log(pass, cond, fail);
 
