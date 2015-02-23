@@ -21,15 +21,15 @@ function run() {
       console.log("FOUND MATCH")
       console.log(restaurantData);
 
-      // Tally our statuses
-      tally     = tallyStatuses(restaurantData);
-      tallyStr  = generateTallyString(tally); 
-
       // Generate and render our default DOM node.
       $node = buildDOMNode();
       renderNode($node);
 
-      // Attach our tallies
+      // Tally our statuses
+      tally     = tallyStatuses(restaurantData);
+      tallyStr  = generateTallyString(tally); 
+      $(".status-tally").html(tallyStr);
+
     } else {
       console.log("No match found :(");
     }
@@ -124,6 +124,40 @@ function tallyStatuses(data) {
   return tally;
 }
 
-function generateTallyString(tally) {
+function pluralizeString(string, suffix, num) {
+  if (num > 0) {
+    return num + " " + string + (num === 1 ? "" : suffix);
+  } else {
+    return null;
+  }
+}
 
+function wrapInSpan(content, className) {
+  return "<span class='" + className + "'>" + content + "</span>";
+}
+
+function generateTallyString(tally) {
+  var pass, cond, fail;
+  
+  console.log(tally);
+
+  // Ugh there is definitely a better way to do this, but whatever
+  if (tally.pass > 0) {
+    pass = pluralizeString("pass", "es", tally.pass);
+    pass = wrapInSpan(pass, "color-green");
+  }
+
+  if (tally.conditional > 0) {
+    cond = pluralizeString("conditional pass", "es", tally.conditional);
+    cond = wrapInSpan(cond, "color-orange");
+  }
+
+  if (tally.closed > 0) {
+    fail = pluralizeString("fail", "s", tally.closed);
+    fail = wrapInSpan(fail, "color-red");
+  }
+
+  console.log(pass, cond, fail);
+
+  return [pass, cond, fail].filter(function(n){ return n != null }).join(", ");
 }
