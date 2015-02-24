@@ -38,7 +38,7 @@ function run() {
       $(".inspection-details").append(inspectionTable);
 
       // Bind the show-details click
-      clickToShow(".show-details", ".inspection-table");
+      clickToToggleTable(".show-details", ".inspection-table");
 
 
     } else {
@@ -142,10 +142,16 @@ function tallyInspections(data, field, tally) {
   return tally;
 }
 
-function clickToShow(handler, target) {
-  $(handler).on("click", function() {
-    $(handler).hide();
-    $(target).fadeIn(500);
+function clickToToggleTable(button, table) {
+  $(button).on("click", function() {
+    console.log($(table).is(":visible") );
+    if ( $(table).is(":visible") ) {
+      $(button).text("Show Inspection Details");
+      $(table).fadeOut(250); 
+    } else {
+      $(button).text("Hide Inspection Details");
+      $(table).fadeIn(500);
+    }
   });
 }
 
