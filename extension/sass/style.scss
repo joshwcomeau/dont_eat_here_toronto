@@ -24,6 +24,7 @@
   }
 
   .inspection-details {
+    overflow: auto;
     padding: 0.6rem;
     background: $beige;
     border-right: 2px solid darken($beige, 25%);
@@ -31,23 +32,27 @@
     border-radius: 0px 0px 4px 4px;
   }
 
+  .col {
+    float: left;
+    width: 50%;
+    text-align: center;
+  }
+
   .status-tally {
     margin-bottom: 12px;
-    text-align: center;
     font-size: 18px;
     font-weight: bold;
   }
 
   .severity-tally {
     opacity: 0.9;
-    text-align: center;
   }
 
   .show-details {
     cursor: pointer;
     position: relative;
     display: block;
-    margin: 24px auto 10px auto;
+    margin: 4px auto;
     padding: 10px 30px;
     font-weight: bold;
     text-align: center;
@@ -67,10 +72,11 @@
 
   .inspection-table {
     display: none;
+    clear: both;
     background: lighten($beige, 15%);
     padding: 0.5rem;
     font-size: 12px;
-    margin-top: 16px;
+    margin-top: 60px;
 
     td {
       padding: 7px 15px;

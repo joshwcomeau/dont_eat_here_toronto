@@ -35,7 +35,7 @@ function run() {
 
       // Generate the inspection table
       inspectionTable = generateInspectionTable(restaurantData);
-      $(".severity-tally").after(inspectionTable);
+      $(".inspection-details").append(inspectionTable);
 
       // Bind the show-details click
       clickToShow(".show-details", ".inspection-table");
@@ -69,17 +69,20 @@ function getJSONData(path) {
 }
 
 function buildDOMNode() {
-  return $("<div class='inspection-wrapper'>"                           +
-      "<h4>DineSafe Toronto Food Inspection Results</h4>"               +
-      "<div class='inspection-details'>"                                +
-        "<div class='status-tally'></div>"                              +
-        "<div class='severity-tally'></div>"                            +
-        "<button class='show-details'>Show Inspection Details</button>" +
-      "</div>"                                                          +
-      "<div class='not-yelp-notice'>"                                   +
-        "This inspection data provided by the Don't Eat Here Chrome "   +
-        "extension and is unaffiliated with Yelp."                      +
-      "</div>"                                                          +         
+  return $("<div class='inspection-wrapper'>"                             +
+      "<h4>DineSafe Toronto Food Inspection Results</h4>"                 + 
+      "<div class='inspection-details'>"                                  +
+        "<div class='col first'>"                                         +                                     
+          "<div class='status-tally'></div>"                              +
+          "<div class='severity-tally'></div>"                            +
+        "</div><div class='col'>"                                         +
+          "<button class='show-details'>Show Inspection Details</button>" +
+        "</div>"                                                          +
+      "</div>"                                                            +
+      "<div class='not-yelp-notice'>"                                     +
+        "This inspection data provided by the Don't Eat Here Chrome "     +
+        "extension and is unaffiliated with Yelp."                        + 
+      "</div>"                                                            +         
     "</div>");
 }
 
