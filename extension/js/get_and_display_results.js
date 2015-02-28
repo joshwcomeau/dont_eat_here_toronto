@@ -96,32 +96,49 @@ function renderNode(node) {
 function findRestaurant(data, name, addr) {
   var match, cleanedName, cleanedJsonName;
 
-  // Let's standardize our data by removing non-alphanumeric characters, and lowercasing it.
+  // Let's standardize our data by removing non-alphanumeric characters, filler words like 'the' and 'a', and lowercasing it.
   name = cleanName(name);
+  console.log('page name', name);
 
   // For addresses, let's *only* look at the street number. This is basically a redundancy check anyway.
   addr = cleanAddr(addr);
 
   return _.find(data, function(restaurant) {
-    cleanedJsonName = cleanName(restaurant.name);
     cleanedJsonAddr = cleanAddr(restaurant.address);
+
+    if ( addr === cleanedJsonAddr ) { 
+      cleanedJsonName = cleanName(restaurant.name);
+
+      console.log("json name", cleanedJsonName); 
+    }
 
     return (name === cleanedJsonName && addr === cleanedJsonAddr);
   });
 }
 
 function cleanName(str) {
-  var str_array;
+  var strArray, filteredStrArray,
+      fillerWords = ["the", "a", "restaurant"];
+
+
+  str = str.toLowerCase()
 
   if (str) {
+    strArray = str.split(" ");
+
+    // Remove filler words
+    filteredStrArray = _.filter(strArray, function(word) {
+      return !(_.includes(fillerWords, word));
+    });
+
+
     // If there are more than 2 words in the name, just take the first 2.
     // This is to avoid mismatches when there are suffixes on one version like 'restaurant'
-    str_array = str.split(" ");
-
-    if (str_array.length > 2) {
-      str = str_array.slice(0, 2).join(" ")
+    if (filteredStrArray.length > 2) {
+      filteredStrArray = filteredStrArray.slice(0, 2);
     }
-    return str.replace(/[^\w]/gi, '').toLowerCase();
+
+    return filteredStrArray.join(" ").replace(/[^\w]/gi, '');
   }
 }
 
