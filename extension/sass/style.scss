@@ -11,16 +11,27 @@
   .color-red          { color: $red; }
   
 
-  h4 {
-    padding: 0.5rem;
+  h6 {
+    padding: 0.5rem 0 0.1rem 0;
     margin-bottom: 0 !important;
-    font-size: 20px !important;
+    font-size: 14px !important;
     font-weight: bold;
     background: $green;
     color: #000;
     text-align: center;
     border-right: 2px solid darken($green, 15%);
     border-radius: 4px 4px 0px 0px;
+  }
+
+  h4 {
+    padding: 0.3rem;
+    margin-bottom: 0 !important;
+    font-size: 18px !important;
+    font-weight: bold;
+    background: $green;
+    color: #000;
+    text-align: center;
+    border-right: 2px solid darken($green, 15%);
   }
 
   .inspection-details {
@@ -72,6 +83,7 @@
 
   .inspection-table {
     display: none;
+    width: 100%;
     clear: both;
     background: lighten($beige, 15%);
     padding: 0.5rem;

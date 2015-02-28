@@ -10,16 +10,25 @@
     color: #ed5506; }
   .inspection-wrapper .color-red {
     color: #CD3321; }
-  .inspection-wrapper h4 {
-    padding: 0.5rem;
+  .inspection-wrapper h6 {
+    padding: 0.5rem 0 0.1rem 0;
     margin-bottom: 0 !important;
-    font-size: 20px !important;
+    font-size: 14px !important;
     font-weight: bold;
     background: #A3BA6C;
     color: #000;
     text-align: center;
     border-right: 2px solid #7e9445;
     border-radius: 4px 4px 0px 0px; }
+  .inspection-wrapper h4 {
+    padding: 0.3rem;
+    margin-bottom: 0 !important;
+    font-size: 18px !important;
+    font-weight: bold;
+    background: #A3BA6C;
+    color: #000;
+    text-align: center;
+    border-right: 2px solid #7e9445; }
   .inspection-wrapper .inspection-details {
     overflow: auto;
     padding: 0.6rem;
@@ -56,6 +65,7 @@
       transition: 0.2s; }
   .inspection-wrapper .inspection-table {
     display: none;
+    width: 100%;
     clear: both;
     background: #fcf9ee;
     padding: 0.5rem;

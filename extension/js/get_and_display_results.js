@@ -18,10 +18,15 @@ function run() {
     jsonData        = JSON.parse(data);
     restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
 
+    console.log(restaurantData);
+
     if (restaurantData) {
       // Generate and render our default DOM node.
       $node = buildDOMNode();
       renderNode($node);
+
+      // Update the restaurant name
+      $(".inspection-header-name").text(restaurantData.name)
 
       // Tally our statuses
       status          = tallyInspections(restaurantData, "status", { pass: 0, conditional: 0, closed: 0 });
@@ -70,7 +75,8 @@ function getJSONData(path) {
 
 function buildDOMNode() {
   return $("<div class='inspection-wrapper'>"                             +
-      "<h4>DineSafe Toronto Food Inspection Results</h4>"                 + 
+      "<h6>DineSafe Toronto Food Inspection Results</h6>"                 +
+      "<h4 class='inspection-header-name'></h4>"                          +
       "<div class='inspection-details'>"                                  +
         "<div class='col first'>"                                         +                                     
           "<div class='status-tally'></div>"                              +
@@ -97,48 +103,48 @@ function findRestaurant(data, name, addr) {
   var match, cleanedName, cleanedJsonName;
 
   // Let's standardize our data by removing non-alphanumeric characters, filler words like 'the' and 'a', and lowercasing it.
-  name = cleanName(name);
-  console.log('page name', name);
+  name = getNameArray(name);
 
   // For addresses, let's *only* look at the street number. This is basically a redundancy check anyway.
   addr = cleanAddr(addr);
 
   return _.find(data, function(restaurant) {
+    cleanedJsonName = getNameArray(restaurant.name);
     cleanedJsonAddr = cleanAddr(restaurant.address);
 
-    if ( addr === cleanedJsonAddr ) { 
-      cleanedJsonName = cleanName(restaurant.name);
-
-      console.log("json name", cleanedJsonName); 
-    }
-
-    return (name === cleanedJsonName && addr === cleanedJsonAddr);
+    // Consider it a match when they share a single matching word and a matching address
+    return (matchNames(name, cleanedJsonName) && addr === cleanedJsonAddr);
   });
 }
 
-function cleanName(str) {
+
+// See if these two names are a match. Expects two arrays, split by whitespace.
+function matchNames(name1, name2) {
+  // Start by checking if they share at least 1 word in common
+  if ( _.intersection(name1, name2).length ) 
+    return true;
+
+  // Also, check if the two are the same when joined together (sometimes things are space-separated when they shouldnt be)
+  if ( name1.join("") === name2.join("") )
+    return true;
+
+  return false;
+}
+
+function getNameArray(str) {
   var strArray, filteredStrArray,
-      fillerWords = ["the", "a", "restaurant"];
+      fillerWords = ["the", "a", "restaurant", "cafe", "cuisine"];
 
-
-  str = str.toLowerCase()
+  // remove any special characters
+  str = str.toLowerCase().replace(/[^\w\s]/gi, '');
 
   if (str) {
     strArray = str.split(" ");
 
     // Remove filler words
-    filteredStrArray = _.filter(strArray, function(word) {
+    return _.filter(strArray, function(word) {
       return !(_.includes(fillerWords, word));
     });
-
-
-    // If there are more than 2 words in the name, just take the first 2.
-    // This is to avoid mismatches when there are suffixes on one version like 'restaurant'
-    if (filteredStrArray.length > 2) {
-      filteredStrArray = filteredStrArray.slice(0, 2);
-    }
-
-    return filteredStrArray.join(" ").replace(/[^\w]/gi, '');
   }
 }
 
@@ -161,7 +167,6 @@ function tallyInspections(data, field, tally) {
 
 function clickToToggleTable(button, table) {
   $(button).on("click", function() {
-    console.log($(table).is(":visible") );
     if ( $(table).is(":visible") ) {
       $(button).text("Show Inspection Details");
       $(table).fadeOut(250); 
