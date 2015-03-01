@@ -34,13 +34,28 @@
     border-right: 2px solid darken($green, 15%);
   }
 
-  .inspection-details {
+  .inspection-details, .inspection-not-found {
     overflow: auto;
     padding: 0.6rem;
     background: $beige;
     border-right: 2px solid darken($beige, 25%);
     border-bottom: 2px solid darken($beige, 30%);
     border-radius: 0px 0px 4px 4px;
+  }
+
+  .inspection-not-found {
+    text-align: center;
+
+    h5 {
+      color: $red;
+      text-align: center;
+      margin: 0.5rem;
+      font-size: 1.4em;
+    }
+
+    p {
+      font-size: 0.85em;
+    }
   }
 
   .col {

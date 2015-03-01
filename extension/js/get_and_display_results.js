@@ -10,20 +10,17 @@ function run() {
   restaurantName  = getRestaurantName();
   restaurantAddr  = getRestaurantAddress();
 
-  console.log("Restaurant name", restaurantName);
-  console.log("Restaurant Addr", restaurantAddr);
-  
   getJSONData(jsonPath).then(function(data) {  
     
     jsonData        = JSON.parse(data);
     restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
 
-    console.log(restaurantData);
+    $node = buildDOMNode();
+    renderNode($node);
 
     if (restaurantData) {
       // Generate and render our default DOM node.
-      $node = buildDOMNode();
-      renderNode($node);
+      attachFoundDomToNode($node);
 
       // Update the restaurant name
       $(".inspection-header-name").text(restaurantData.name)
@@ -47,7 +44,8 @@ function run() {
 
 
     } else {
-      console.log("No match found :(");
+      console.log("nope");
+      attachNotFoundDomToNode($node);
     }
   });
 }
@@ -74,24 +72,33 @@ function getJSONData(path) {
 }
 
 function buildDOMNode() {
-  return $("<div class='inspection-wrapper'>"                             +
-      "<h6>DineSafe Toronto Food Inspection Results</h6>"                 +
-      "<h4 class='inspection-header-name'></h4>"                          +
-      "<div class='inspection-details'>"                                  +
-        "<div class='col first'>"                                         +                                     
-          "<div class='status-tally'></div>"                              +
-          "<div class='severity-tally'></div>"                            +
-        "</div><div class='col'>"                                         +
-          "<button class='show-details'>Show Inspection Details</button>" +
-        "</div>"                                                          +
-      "</div>"                                                            +
-      "<div class='not-yelp-notice'>"                                     +
-        "This inspection data provided by the Don't Eat Here Chrome "     +
-        "extension and is unaffiliated with Yelp."                        + 
-      "</div>"                                                            +         
-    "</div>");
+  return $("<div class='inspection-wrapper'>"                           +
+    "<h6>DineSafe Toronto Food Inspection Results</h6>"                 +
+  "</div>");
 }
 
+function attachFoundDomToNode($node) {
+  $node.append("<h4 class='inspection-header-name'></h4>"               +
+    "<div class='inspection-details'>"                                  +
+      "<div class='col first'>"                                         +                                     
+        "<div class='status-tally'></div>"                              +
+        "<div class='severity-tally'></div>"                            +
+      "</div><div class='col'>"                                         +
+        "<button class='show-details'>Show Inspection Details</button>" +
+      "</div>"                                                          +
+    "</div>"                                                            +
+    "<div class='not-yelp-notice'>"                                     +
+      "This inspection data provided by the Don't Eat Here Chrome "     +
+      "extension and is unaffiliated with Yelp."                        + 
+    "</div>");                                                        
+}
+
+function attachNotFoundDomToNode($node) {
+  $node.append("<div class='inspection-not-found'>"                     +
+    "<h5>Inspection Not Found</h5>"                                     +
+    "<p>Sorry, we could not locate any inspection results for"          +
+        "this restaurant.</p></div>");
+}
 
 
 function renderNode(node) {
