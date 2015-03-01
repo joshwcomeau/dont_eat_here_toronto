@@ -10,6 +10,15 @@
     color: #ed5506; }
   .inspection-wrapper .color-red {
     color: #CD3321; }
+  .inspection-wrapper .close-btn {
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    text-align: center;
+    line-height: 27px;
+    left: 0;
+    top: 0;
+    color: #FFF; }
   .inspection-wrapper h6 {
     padding: 0.5rem 0 0.1rem 0;
     margin-bottom: 0 !important;

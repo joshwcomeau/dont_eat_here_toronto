@@ -17,6 +17,7 @@ function run() {
 
     $node = buildDOMNode();
     renderNode($node);
+    attachCloseButton("white_x.png");
 
     if (restaurantData) {
       // Generate and render our default DOM node.
@@ -98,6 +99,14 @@ function attachNotFoundDomToNode($node) {
     "<h5>Inspection Not Found</h5>"                                     +
     "<p>Sorry, we could not locate any inspection results for"          +
         "this restaurant.</p></div>");
+}
+
+function attachCloseButton(filename) {
+  var path = chrome.extension.getURL(filename);
+
+  var $node = $("<div class='close-btn' style='background-image: url(" + path + ");'></div>");
+
+  $(".inspection-wrapper").prepend($node);
 }
 
 

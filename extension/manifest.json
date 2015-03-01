@@ -39,6 +39,7 @@
   ],
 
   "web_accessible_resources": [
-    "*.json"
+    "*.json",
+    "white_x.png"
   ]
 }
