@@ -3,9 +3,13 @@
 //////////////////////////////////////////
 function run() {
   var $node, yelpRestaurantData, restaurantName, restaurantAddr, restaurantData, jsonData, 
-      jsonPath, status, statusStr, severity, severityString, inspectionTable;
+      jsonPath, status, statusStr, severity, severityString, inspectionTable, buttonPath, wrapperClass;
 
   jsonPath        = "../data.json";
+
+  // variables
+  buttonPath      = "white_x.png";
+  wrapperClass    = ".inspection-wrapper";
 
   restaurantName  = getRestaurantName();
   restaurantAddr  = getRestaurantAddress();
@@ -15,9 +19,9 @@ function run() {
     jsonData        = JSON.parse(data);
     restaurantData  = findRestaurant(jsonData, restaurantName, restaurantAddr);
 
-    $node = buildDOMNode();
+    $node = buildDOMNode(wrapperClass);
     renderNode($node);
-    attachCloseButton("white_x.png");
+    attachCloseButton(buttonPath, wrapperClass);
 
     if (restaurantData) {
       // Generate and render our default DOM node.
@@ -72,8 +76,8 @@ function getJSONData(path) {
   return $.get(chrome.extension.getURL(path));
 }
 
-function buildDOMNode() {
-  return $("<div class='inspection-wrapper'>"                           +
+function buildDOMNode(wrapperClass) {
+  return $("<div class='" + wrapperClass + "'>"                         +
     "<h6>DineSafe Toronto Food Inspection Results</h6>"                 +
   "</div>");
 }
@@ -101,12 +105,18 @@ function attachNotFoundDomToNode($node) {
         "this restaurant.</p></div>");
 }
 
-function attachCloseButton(filename) {
+function attachCloseButton(filename, wrapperClass) {
   var path = chrome.extension.getURL(filename);
+  var $node = $("<div></div>");
 
-  var $node = $("<div class='close-btn' style='background-image: url(" + path + ");'></div>");
+  $node
+    .addClass("close-btn")
+    .css({backgroundImage: 'url(' + path + ')'})
+    .on("click", function() {
+      $(wrapperClass).fadeOut(500);
+  });
 
-  $(".inspection-wrapper").prepend($node);
+  $(wrapperClass).prepend($node);
 }
 
 

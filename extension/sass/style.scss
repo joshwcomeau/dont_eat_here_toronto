@@ -19,6 +19,14 @@
     left: 0;
     top: 0;
     color: #FFF;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: 0.5s;
+
+    &:hover {
+      opacity: 1;
+      transition: 0.2s;
+    }
   }
 
   h6 {

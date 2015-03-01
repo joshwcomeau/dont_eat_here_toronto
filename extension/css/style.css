@@ -18,7 +18,13 @@
     line-height: 27px;
     left: 0;
     top: 0;
-    color: #FFF; }
+    color: #FFF;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: 0.5s; }
+    .inspection-wrapper .close-btn:hover {
+      opacity: 1;
+      transition: 0.2s; }
   .inspection-wrapper h6 {
     padding: 0.5rem 0 0.1rem 0;
     margin-bottom: 0 !important;
