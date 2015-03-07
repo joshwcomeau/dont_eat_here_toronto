@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(function() {
       conditions: [
         new chrome.declarativeContent.PageStateMatcher({
           pageUrl: { urlContains: 'yelp' },
+          css:     [ '.biz-details.country-ca' ]
         })
       ],
       // And shows the extension's page action.
