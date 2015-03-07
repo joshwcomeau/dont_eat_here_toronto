@@ -3,7 +3,7 @@
 
   "name": "Don't Eat Here Toronto",
   "description": "Adds Toronto DineSafe food inspection info to Yelp restaurant pages for Toronto restaurants.",
-  "version": "1.0",
+  "version": "0.0.1",
 
   "page_action": {
     "default_icon": {
