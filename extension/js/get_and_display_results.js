@@ -9,7 +9,7 @@ function run() {
 
   // variables
   buttonPath      = "white_x.png";
-  wrapperClass    = ".inspection-wrapper";
+  wrapperClass    = "inspection-wrapper";
 
   restaurantName  = getRestaurantName();
   restaurantAddr  = getRestaurantAddress();
@@ -49,7 +49,6 @@ function run() {
 
 
     } else {
-      console.log("nope");
       attachNotFoundDomToNode($node);
     }
   });
